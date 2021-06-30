@@ -93,11 +93,11 @@ values
 
 insert into `exam`  (`Code`  , Title , CategoryID , Duration  , CreatorID , CreateDate )
 values
-					('VTI1', 'SQL' ,'3','30 phút',1	,'2020-10-12'),
-					('VTI2', 'Java','1','30 phút',1	,'2020-10-12'),
-                    ('VTI3', 'SQL' ,'3','30 phút',1	,'2020-10-12'),
-                    ('VTI4', '.NET','2','30 phút',2	,'2020-10-12'),
-                    ('VTI5', 'SQL' ,'3','30 phút',2	,'2020-10-12');
+					('VTI1', 'SQL' ,'3','30',1	,'2020-10-12'),
+					('VTI2', 'Java','1','40',1	,'2020-10-12'),
+                    ('VTI3', 'SQL' ,'3','50',1	,'2020-10-12'),
+                    ('VTI4', '.NET','2','60',2	,'2020-10-12'),
+                    ('VTI5', 'SQL' ,'3','70',2	,'2020-10-12');
 
 
 insert into `examquestion`	(ExamID, QuestionID)

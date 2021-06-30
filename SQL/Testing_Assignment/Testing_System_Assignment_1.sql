@@ -16,26 +16,28 @@ create table `Account` (
 	AccountID		TINYINT unsigned primary key auto_increment,
     Email			varchar(50) not null,
     Username		varchar(50) not null,
-    Fullname		varchar(50) not null,
+    Fullname		nvarchar(50) not null,
     DepartmentID	TINYINT unsigned not null,
     PositionID		TINYINT unsigned not null,
     CreateDate		datetime default now(),
-    foreign key (DepartmentID) references `Department` (DepartmentID),
-    foreign key (PositionID) references `Position` (PositionID)
+    constraint fk_account foreign key (DepartmentID) references `Department` (DepartmentID),
+    constraint fk_account1 foreign key (PositionID) references `Position` (PositionID)
 );
  create table `Group` (
 	GroupID			TINYINT unsigned primary key auto_increment,
     GroupName		varchar(50) not null,
     CreatorID		TINYINT unsigned not null,
-    CreateDate		datetime default now()
+    CreateDate		datetime default now(),
+    
+    constraint fk_group foreign key (CreatorID) references `Account` (AccountID)
  );
  
  create table `GroupAccount` (
 	GroupID			TINYINT unsigned not null,
     AccountID		TINYINT unsigned not null,
     JoinDate		datetime default now(),
-	foreign key (GroupID) references `Group` (GroupID),
-    foreign key (AccountID) references `Account` (AccountID)
+	constraint fk_groupaccount foreign key (GroupID) references `Group` (GroupID),
+    constraint fk_groupaccount1 foreign key (AccountID) references `Account` (AccountID)
  );
 
 create table `TypeQuestion` (
@@ -55,7 +57,8 @@ create table `TypeQuestion` (
     CreatorID		TINYINT	unsigned not null,
     CreateDate		datetime default now(),
     
-    foreign key (CategoryID) references `CategoryQuestion` (CategoryID)
+    constraint fk_question foreign key (CategoryID) references `CategoryQuestion` (CategoryID),
+    constraint fk_question1 foreign key (CreatorID) references `Account` (AccountID)
  );
  
  create table `Answer` (
@@ -64,7 +67,7 @@ create table `TypeQuestion` (
     QuestionID		TINYINT unsigned not null,
     isCorrect		varchar(50) not null,
     
-    foreign key (QuestionID) references `Question` (QuestionID)
+    constraint fk_answer foreign key (QuestionID) references `Question` (QuestionID)
  );
  
  create table `Exam` (
@@ -72,19 +75,21 @@ create table `TypeQuestion` (
     `Code`			varchar(50) not null,
     Title			varchar(50),
     CategoryID		TINYINT unsigned not null,
-    Duration		varchar(50),
+    Duration		int unsigned not null,
     CreatorID		TINYINT unsigned not null,
     CreateDate		datetime default now(),
     
-    foreign key (CategoryID) references `CategoryQuestion` (CategoryID)
+    constraint fk_exam foreign key (CategoryID) references `CategoryQuestion` (CategoryID),
+    constraint fk_exam1 foreign key (CreatorID) references `Account` (AccountID)
  );
  
  create table `ExamQuestion` (
-	ExamID			TINYINT unsigned primary key,
-    QuestionID		TINYINT unsigned not null,
+	ExamID			TINYINT unsigned ,
+    QuestionID		TINYINT unsigned ,
     
-    foreign key (ExamID) references `Exam` (ExamID),
-    foreign key (QuestionID) references `Question` (QuestionID)
+    constraint pk_examquestion primary key (ExamID, QuestionID),
+    constraint fk_examquestion foreign key (ExamID) references `Exam` (ExamID),
+    constraint fk_examquestion2 foreign key (QuestionID) references `Question` (QuestionID)
  );
 
  
