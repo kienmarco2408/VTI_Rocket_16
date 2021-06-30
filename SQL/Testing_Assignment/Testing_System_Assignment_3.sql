@@ -7,7 +7,7 @@ use `Testing_System_Assignment_2`;
 select * from `department`;
 
 -- Question 3: lấy ra id của phòng ban "Sale"
-select DepartmentID from `department` where Sale;
+select DepartmentID from `department` where DepartmentName = 'Sale';
 
 -- Question 4: lấy ra thông tin account có full name dài nhất
 select * from `account` where character_length(Fullname) = (select max(character_length(Fullname))from `account`);

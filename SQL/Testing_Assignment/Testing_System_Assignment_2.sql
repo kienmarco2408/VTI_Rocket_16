@@ -34,7 +34,9 @@ values
                      ('peterkrush18@gmail.com'     ,'peterkrush18'    , 'Peter Krush'  , 	  7	  ,	    1   ,	'2017-07-18'),
                      ('henrypham65@gmail.com'      ,'henrypham65'     , 'Henry Pham'   , 	  8	  ,	    4   ,	'2016-06-05'),
                      ('robertroger97@gmail.com'    ,'robertroger97'   , 'Robert Roger' , 	  5	  ,	    2   ,	'2019-07-24'),
-                     ('samwillson123@gmail.com'    ,'samwillson123'   , 'Sam Willson'  , 	  2   ,	    2   ,	'2020-01-23');
+                     ('samwillson123@gmail.com'    ,'samwillson123'   , 'Sam Willson'  , 	  2   ,	    2   ,	'2020-01-23'),
+                     ('davilfalcao99@gmail.com'    ,'davilfalcao99'   , 'Davil Falcao' , 	  1   ,	    2   ,	'2020-01-23'),
+                     ('jamesdaniel89@gmail.com'    ,'jamesdaniel89'   , 'James Daniel' , 	  3   ,	    2   ,	'2020-01-23');
 
 
 insert into `group` (GroupName, CreatorID, CreateDate  )
@@ -79,7 +81,10 @@ values
                        ('Có bao nhiêu loại kiểu dữ liệu number ?', 3, 2, 2, '2020-09-13'),
                        ('Lập trình Java là gì ?', 1, 1, 1, '2020-09-12'),
                        ('Java sử dụng để làm gì ?', 1, 2, 1, '2020-09-12'),
-                       ('.NET là gì và sử dụng chủ yếu để làm gì ?', 2, 1, 2, '2020-09-13');
+                       ('.NET là gì và sử dụng chủ yếu để làm gì ?', 2, 1, 2, '2020-09-13'),
+                       ('câu hỏi Java?', 1, 1, 3, '2018-09-13'),
+                       ('câu hỏi SQL?', 3, 2, 4, '2017-09-13'),
+                       ('câu hỏi .NET', 2, 2, 2, '2019-09-13');
  
 
 insert into `answer`(Content, QuestionID, isCorrect )
@@ -93,10 +98,10 @@ values
 
 insert into `exam`  (`Code`  , Title , CategoryID , Duration  , CreatorID , CreateDate )
 values
-					('VTI1', 'SQL' ,'3','30',1	,'2020-10-12'),
-					('VTI2', 'Java','1','40',1	,'2020-10-12'),
-                    ('VTI3', 'SQL' ,'3','50',1	,'2020-10-12'),
-                    ('VTI4', '.NET','2','60',2	,'2020-10-12'),
+					('VTI1', 'SQL' ,'3','30',1	,'2019-10-12'),
+					('VTI2', 'Java','1','40',1	,'2017-10-12'),
+                    ('VTI3', 'SQL' ,'3','50',1	,'2018-10-12'),
+                    ('VTI4', '.NET','2','60',2	,'2016-10-12'),
                     ('VTI5', 'SQL' ,'3','70',2	,'2020-10-12');
 
 
