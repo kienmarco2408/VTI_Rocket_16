@@ -2,95 +2,117 @@ drop database if exists	`Testing_System_Assignment_1`;
 create database if not exists  `Testing_System_Assignment_1`;
 use `Testing_System_Assignment_1`;
 
-create table `Department` (
-	DepartmentID	TINYINT unsigned primary key auto_increment,
-    DepartmentName	Nvarchar(50) not null
+# CREATE TABLE Phòng Ban
+DROP TABLE IF EXISTS `Department`;
+CREATE TABLE IF NOT EXISTS `Department`
+(
+    `DepartmentID`   TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `DepartmentName` VARCHAR(50) NOT NULL
 );
 
-create table `Position` (
-	PositionID		TINYINT unsigned primary key auto_increment,
-    PositionName	enum('Dev', 'Test', 'Scrum Master', 'PM') unique key not null
+# CREATE TABLE Chức vụ
+DROP TABLE IF EXISTS `Position`;
+CREATE TABLE IF NOT EXISTS `Position`
+(
+    `PositionID`   TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `PositionName` ENUM ('Dev 1', 'Dev 2', 'Tester', 'PM', 'Mentor', 'Scrum Master', 'Giám đốc', 'Thư ký', 'Developer')
 );
 
-create table `Account` (
-	AccountID		TINYINT unsigned primary key auto_increment,
-    Email			varchar(50) not null,
-    Username		varchar(50) not null,
-    Fullname		nvarchar(50) not null,
-    DepartmentID	TINYINT unsigned not null,
-    PositionID		TINYINT unsigned not null,
-    CreateDate		datetime default now(),
-    constraint fk_account foreign key (DepartmentID) references `Department` (DepartmentID),
-    constraint fk_account1 foreign key (PositionID) references `Position` (PositionID)
+# CREATE TABLE Tài khoản
+DROP TABLE IF EXISTS `Account`;
+CREATE TABLE IF NOT EXISTS `Account`
+(
+    `AccountId`    TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `Email`        VARCHAR(50) UNIQUE KEY,
+    `UserName`     VARCHAR(50) NOT NULL UNIQUE KEY,
+    `FullName`     VARCHAR(50),
+    `DepartmentId` TINYINT,
+    `PositionID`   TINYINT,
+    `CreateDate`   DATETIME DEFAULT NOW()
+#     CONSTRAINT pk PRIMARY KEY (AccountId)
 );
- create table `Group` (
-	GroupID			TINYINT unsigned primary key auto_increment,
-    GroupName		varchar(50) not null,
-    CreatorID		TINYINT unsigned not null,
-    CreateDate		datetime default now(),
-    
-    constraint fk_group foreign key (CreatorID) references `Account` (AccountID)
- );
- 
- create table `GroupAccount` (
-	GroupID			TINYINT unsigned not null,
-    AccountID		TINYINT unsigned not null,
-    JoinDate		datetime default now(),
-	constraint fk_groupaccount foreign key (GroupID) references `Group` (GroupID),
-    constraint fk_groupaccount1 foreign key (AccountID) references `Account` (AccountID)
- );
 
-create table `TypeQuestion` (
-	TypeID			TINYINT  unsigned  primary key auto_increment,
-    TypeName		enum('Essay', 'Mutiple-Choice') unique key not null
+# CREATE TABLE Nhóm
+DROP TABLE IF EXISTS `Group`;
+CREATE TABLE IF NOT EXISTS `Group`
+(
+    `GroupID`    TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `GroupName`  VARCHAR(50),
+    `CreatorID`  TINYINT UNSIGNED,
+    `CreateDate` DATETIME DEFAULT NOW()
 );
- create table `CategoryQuestion` (
-	CategoryID		TINYINT unsigned primary key auto_increment,
-    CategoryName	enum('Java', '.NET','SQL', 'Postman','Ruby','...') unique key not null
- );
- 
- create table `Question` (
-	QuestionID		TINYINT unsigned primary key auto_increment,
-    Content			nvarchar(50) not null,
-    CategoryID		TINYINT unsigned not null,
-    TypeID			TINYINT unsigned not null,
-    CreatorID		TINYINT	unsigned not null,
-    CreateDate		datetime default now(),
-    
-    constraint fk_question foreign key (CategoryID) references `CategoryQuestion` (CategoryID),
-    constraint fk_question1 foreign key (CreatorID) references `Account` (AccountID)
- );
- 
- create table `Answer` (
-	AnswerID		TINYINT unsigned primary key auto_increment,
-    Content			nvarchar(225) not null,
-    QuestionID		TINYINT unsigned not null,
-    isCorrect		varchar(50) not null,
-    
-    constraint fk_answer foreign key (QuestionID) references `Question` (QuestionID)
- );
- 
- create table `Exam` (
-	ExamID			TINYINT unsigned primary key auto_increment,
-    `Code`			varchar(50) not null,
-    Title			varchar(50),
-    CategoryID		TINYINT unsigned not null,
-    Duration		int unsigned not null,
-    CreatorID		TINYINT unsigned not null,
-    CreateDate		datetime default now(),
-    
-    constraint fk_exam foreign key (CategoryID) references `CategoryQuestion` (CategoryID),
-    constraint fk_exam1 foreign key (CreatorID) references `Account` (AccountID)
- );
- 
- create table `ExamQuestion` (
-	ExamID			TINYINT unsigned ,
-    QuestionID		TINYINT unsigned ,
-    
-    constraint pk_examquestion primary key (ExamID, QuestionID),
-    constraint fk_examquestion foreign key (ExamID) references `Exam` (ExamID),
-    constraint fk_examquestion2 foreign key (QuestionID) references `Question` (QuestionID)
- );
+
+# CREATE TABLE Nhóm Tài Khoản
+DROP TABLE IF EXISTS `GroupAccount`;
+CREATE TABLE IF NOT EXISTS `GroupAccount`
+(
+    `GroupID`   TINYINT UNSIGNED,
+    `AccountID` TINYINT UNSIGNED,
+    `JoinDate`  DATETIME DEFAULT NOW()
+);
+
+# CREATE TABLE Loại câu hỏi
+DROP TABLE IF EXISTS `TypeQuestion`;
+CREATE TABLE IF NOT EXISTS `TypeQuestion`
+(
+    `TypeID`   TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `TypeName` VARCHAR(50)
+);
+
+# CREATE TABLE loại câu hỏi
+DROP TABLE IF EXISTS `CategoryQuestion`;
+CREATE TABLE IF NOT EXISTS `CategoryQuestion`
+(
+    `CategoryID`   TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `CategoryName` VARCHAR(50) NOT NULL UNIQUE KEY
+);
+
+# CREATE TABLE Câu hỏi
+DROP TABLE IF EXISTS `Question`;
+CREATE TABLE IF NOT EXISTS `Question`
+(
+    `QuestionID` TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `Content`    VARCHAR(100),
+    `CategoryID` TINYINT UNSIGNED,
+    `TypeID`     TINYINT UNSIGNED,
+    `CreatorID`  TINYINT UNSIGNED NOT NULL,
+    `CreateDate` DATETIME DEFAULT NOW()
+);
+
+# CREATE TABLE Câu trả lời
+DROP TABLE IF EXISTS `Answer`;
+CREATE TABLE IF NOT EXISTS `Answer`
+(
+    `AnswerID`   TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `Content`    VARCHAR(100),
+    `QuestionID` TINYINT UNSIGNED NOT NULL,
+    `isCorrect`  BIT,
+    CONSTRAINT fk_question FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID)
+);
+
+# CREATE TABLE Đề thi
+DROP TABLE IF EXISTS `Exam`;
+CREATE TABLE IF NOT EXISTS `Exam`
+(
+    `ExamID`     TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `Code`       VARCHAR(50) UNIQUE,
+    `Title`      VARCHAR(50),
+    `CategoryID` TINYINT UNSIGNED,
+    `Duration`   TINYINT,
+    `CreatorID`  TINYINT UNSIGNED,
+    `CreateDate` DATETIME DEFAULT NOW()
+#     ,CONSTRAINT fk_create_id FOREIGN KEY (CategoryID) REFERENCES Account (AccountId),
+#     CONSTRAINT fk_category_id FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion (CategoryID)
+);
+
+# CREATE TABLE Bộ câu hỏi
+DROP TABLE IF EXISTS `ExamQuestion`;
+CREATE TABLE IF NOT EXISTS `ExamQuestion`
+(
+    `ExamID`     TINYINT,
+    `QuestionID` TINYINT
+);
+
 
  
 

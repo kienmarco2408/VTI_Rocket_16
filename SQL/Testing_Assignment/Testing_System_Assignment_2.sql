@@ -1,114 +1,157 @@
-drop database if exists `Testing_System_Assignment_2`;
+drop database if exists	`Testing_System_Assignment_2`;
 create database if not exists  `Testing_System_Assignment_2`;
 use `Testing_System_Assignment_1`;
 
-insert into `department`(DepartmentName)
-values					
-						('Marketing'	),
-                        ('Sale'			),
-                        (N'Bảo vệ'		),
-                        (N'Nhân sự'		),
-                        (N'Kỹ thuật'		),
-                        (N'Tài chính'	),
-                        (N'Phó giám đốc'	),
-                        (N'Giám đốc'		),
-                        (N'Thư ký'		),
-                        (N'Bán hàng'		);
- 
+/*---------------- INSERT DATA ------------------*/
+######Insert data bảng `Department`
+# cách 1 điền đầy đủ cả thông tin
+# cách này dễ bị lỗi [1062] nếu `DepartmentId` insert đã tồn tại trong bảng vì đây là khóa chính ko được trùng lập
+INSERT INTO Department(DepartmentID, DepartmentName)
+VALUES (1, 'Phòng marketing');
 
-insert into `position`(PositionName)
-values
-					  ('Dev'		),
-					  ('Test'		),
-					  ('Scrum Master'),
-					  ('PM'			);
+#Cách 2 chỉ điền tên phòng ban, để ID tự tăng
+INSERT INTO Department(DepartmentName)
+VALUES ('Phòng Sale');
+INSERT INTO Department(DepartmentName)
+VALUES ('Phòng Dev 1');
+INSERT INTO Department(DepartmentName)
+VALUES ('Phòng Dev 2');
+
+#Cách 3 insert nhiều data cùng 1 lúc
+INSERT INTO Department(DepartmentName)
+VALUES ('Phòng Bảo vệ'),
+       ('Phòng Nhân sự'),
+       ('Phòng Giám Đốc'),
+       ('Phòng Kỹ thuật'),
+       ('Phòng Thư ký'),
+       ('Phòng Tạp vụ'),
+       ('Phòng Phó Giám Đốc');
+
+##### INSERT data bảng `position`
+#Giá trị `PositionName` chỉ nhận các giá trị được gắn trong Enum vì đây là kiểu tự định nghĩa.
+#`PositionName` ENUM ('Dev 1', 'Dev 2', 'Tester', 'PM', 'Mentor', 'Scrum Master', 'Giám đốc', 'Thư ký')
+# ALTER TABLE `Position` CHANGE COLUMN `PositionName` `PositionName` ENUM ('Dev 1', 'Dev 2', 'Tester', 'PM', 'Mentor', 'Scrum Master', 'Giám đốc', 'Thư ký', 'Developer');
+
+INSERT INTO `Position`(PositionName)
+VALUES ('Dev 1'),
+       ('Dev 2'),
+       ('Giám đốc'),
+       ('Tester'),
+       ('PM'),
+       ('Mentor'),
+       ('Developer'),
+       ('Scrum Master');
+
+##### INSERT DATA bảng `Account`
+INSERT INTO `Account`(Email, UserName, FullName, DepartmentId, PositionID, CreateDate)
+VALUES ('email_vti1@gmail.com', 'acountvti1', 'Nguyễn Văn A', 4, 1, NOW()),
+       ('email_vti2@gmail.com', 'acountvti2', 'Trinh Hoai Lam', 2, 1, '2021-02-26'),
+       ('email_vti3@gmail.com', 'acountvti3', 'Nguyễn Thu Hoai', 4, 2, '2021-01-01'),
+       ('email4@gmail.com', 'acountvti4', 'Trương Văn Bình', 2, 5, '2021-06-30'),
+       ('email_vti5@gmail.com', 'acountvti5', 'Dương Chi Tai', 3, 3, '2021-01-01'),
+       ('email6@gmail.com', 'acountvti6', 'Nguyễn Thế Hải', 9, 3, '2021-01-02'),
+       ('email7@gmail.com', 'acountvti7', 'Dương Chí Dũng', 7, 1, NOW()),
+       ('email8@gmail.com', 'acountvti8', 'Cao Hữu Đạt', 4, 2, NOW()),
+       ('email9@gmail.com', 'acountvti9', 'Nguyễn văn B', 4, 4, '2021-05-01'),
+       ('email10@gmail.com', 'acountvti10', 'Mai Anh Tài', 3, 5, '2021-06-06');
+INSERT INTO `Account` (Email, UserName, FullName, DepartmentId, PositionID, CreateDate)
+VALUES ('email11@gmail.com', 'acountvti11', 'Dao Van Bo', 1, 2, '2021-05-05');
+
+INSERT INTO `Group` (GroupName, CreatorID, CreateDate)
+VALUES ('Testing System', 1, '2019-03-05'),
+       ('Development', 9, '2020-03-07'),
+       ('VTI Sale 01', 2, '2020-03-09'),
+       ('VTI Sale 02', 9, '2020-03-10'),
+       ('VTI Development', 3, '2021-01-10'),
+       ('VTI Sale 05', 1, '2021-03-10'),
+       ('VTI Sale 03', 9, '2020-03-28'),
+       ('VTI Creator', 6, '2020-04-06'),
+       ('VTI Marketing 01', 5, '2020-04-07'),
+       ('Management', 5, '2020-04-08'),
+       ('Chat with love', 1, '2020-04-09'),
+       ('Vi Ti Ai', 10, '2020-04-10');
+
+/* DELETE FROM GroupAccount; */
+INSERT INTO `GroupAccount` (GroupID, AccountID, JoinDate)
+VALUES (1, 1, '2019-03-05'),
+       (1, 2, '2020-03-07'),
+       (1, 10, '2020-03-07'),
+       (1, 8, '2020-03-07'),
+       (3, 3, '2020-03-09'),
+       (3, 4, '2020-03-10'),
+       (5, 5, '2020-03-28'),
+       (1, 3, '2020-04-06'),
+       (1, 9, NOW()),
+       (8, 3, NOW()),
+       (1, 7, '2020-04-09'),
+       (10, 10, '2020-04-10');
+
+INSERT INTO TypeQuestion (TypeName)
+VALUES ('Essay'),
+       ('Multiple-Choice');
+
+INSERT INTO CategoryQuestion (CategoryName)
+VALUES ('Java'),
+       ('ASP.NET'),
+       ('ADO.NET'),
+       ('SQL'),
+       ('Postman'),
+       ('Ruby'),
+       ('Python'),
+       ('C++'),
+       ('C Sharp'),
+       ('PHP');
+
+INSERT INTO Question (Content, CategoryID, TypeID, CreatorID, CreateDate)
+VALUES ('Câu hỏi về Java', 1, '1', '2', '2020-04-05'),
+       ('Câu Hỏi về PHP', 10, '2', '2', '2020-04-05'),
+       ('Hỏi về C#', 9, '2', '3', '2020-04-06'),
+       ('Hỏi về Ruby', 6, '1', '4', '2020-04-06'),
+       ('Hỏi về Postman', 5, '1', '5', '2020-04-06'),
+       ('Hỏi về ADO.NET', 3, '2', '6', '2020-04-06'),
+       ('Hỏi về ASP.NET', 2, '1', '7', '2020-04-06'),
+       ('Hỏi về C++', 8, '1', '8', '2020-04-07'),
+       ('Hỏi về SQL', 4, '2', '9', '2020-04-07'),
+       ('Hỏi về Python', 7, '1', '10', '2020-04-07');
+/* DELETE FROM Answer; */
+INSERT INTO Answer (Content, QuestionID, isCorrect)
+VALUES ('Trả lời 01', 1, 0),
+       ('Trả lời 02', 1, 1),
+       ('Trả lời 03', 1, 0),
+       ('Trả lời 04', 1, 1),
+       ('Trả lời 05', 2, 1),
+       ('Trả lời 06', 3, 1),
+       ('Trả lời 07', 4, 0),
+       ('Trả lời 08', 8, 0),
+       ('Trả lời 09', 9, 1),
+       ('Trả lời 10', 10, 1),
+       ('Trả lời 11', 2, 0),
+       ('Trả lời 12', 2, 0),
+       ('Trả lời 13', 2, 1),
+       ('Trả lời 14', 3, 1),
+       ('Trả lời 15', 3, 1);
+
+INSERT INTO Exam (`Code`, Title, CategoryID, Duration, CreatorID, CreateDate)
+VALUES ('VTIQ001', 'Đề thi C#', 1, 60, '5', '2019-04-05'),
+       ('VTIQ002', 'Đề thi PHP', 10, 60, '2', '2019-04-05'),
+       ('VTIQ003', 'Đề thi C++', 9, 120, '2', '2019-04-07'),
+       ('VTIQ004', 'Đề thi Java', 6, 60, '3', '2020-04-08'),
+       ('VTIQ005', 'Đề thi Ruby', 5, 120, '4', '2020-04-10'),
+       ('VTIQ006', 'Đề thi Postman', 3, 60, '6', '2020-04-05'),
+       ('VTIQ007', 'Đề thi SQL', 2, 60, '7', '2020-04-05'),
+       ('VTIQ008', 'Đề thi Python', 8, 60, '8', '2020-04-07'),
+       ('VTIQ009', 'Đề thi ADO.NET', 4, 90, '9', '2020-04-07'),
+       ('VTIQ010', 'Đề thi ASP.NET', 7, 90, '10', '2020-04-08');
 
 
-
-insert into `account`(Email					  	   , Username         , Fullname	   , DepartmentID , PositionID, CreateDate		)
-values		
-					 ('kienmarco999@gmail.com'     ,'kientran2408'    , 'Tran Van Kien', 	  5	  ,	    1  ,	'2017-08-24'),
-                     ('johnmartin23@gmail.com'     ,'johnmartin23'    , 'John Martin'  , 	  2	  ,	    2   ,	'2020-02-23'),
-                     ('kevinphillip42@gmail.com'   ,'kevinphi4299'    , 'Kevin Phillip', 	  6	  ,	    3   ,	'2018-04-02'),
-                     ('harryparker33@gmail.com'    ,'harryparker33'   , 'Harry Parker' , 	  9	  ,	    4   ,	'2019-03-03'),
-                     ('peterkrush18@gmail.com'     ,'peterkrush18'    , 'Peter Krush'  , 	  7	  ,	    1   ,	'2017-07-18'),
-                     ('henrypham65@gmail.com'      ,'henrypham65'     , 'Henry Pham'   , 	  8	  ,	    4   ,	'2016-06-05'),
-                     ('robertroger97@gmail.com'    ,'robertroger97'   , 'Robert Roger' , 	  5	  ,	    2   ,	'2019-07-24'),
-                     ('samwillson123@gmail.com'    ,'samwillson123'   , 'Sam Willson'  , 	  2   ,	    2   ,	'2020-01-23'),
-                     ('davilfalcao99@gmail.com'    ,'davilfalcao99'   , 'Davil Falcao' , 	  1   ,	    2   ,	'2020-01-23'),
-                     ('jamesdaniel89@gmail.com'    ,'jamesdaniel89'   , 'James Daniel' , 	  3   ,	    2   ,	'2020-01-23');
-
-
-insert into `group` (GroupName, CreatorID, CreateDate  )
-values
-					('London' ,    1   ,'2020-03-24' ),
-                    ('Paris'  ,    2   ,'2020-04-21' ),
-                    ('Moscow' ,    3   ,'2020-05-27' ),
-                    ('Berlin' ,    4   ,'2020-06-12' ),
-                    ('Tokyo'  ,    5   ,'2020-07-16' );
-
-
-insert into `groupaccount` (GroupID, AccountID, JoinDate)
-values
-						   (   1 ,    1   , '2020-03-25'),
-                           (   3 ,    2   , '2020-05-28'),
-                           (   5 ,    3   , '2020-07-17'),
-                           (   1 ,    4   , '2020-03-26'),
-                           (   2 ,    5   , '2020-04-22'),
-                           (   4 ,    6   , '2020-06-13'),
-                           (   4 ,    7   , '2020-06-13'),
-                           (   1 ,    8   , '2020-03-30');
-
-
-insert into `typequestion`(TypeName)
-values
-						('Essay'),
-						('Mutiple-Choice');
-
-
-insert into `categoryquestion`  (CategoryName)
-values
-								('Java'	 	 ),
-                                ('.NET'	 	 ),
-                                ('SQL '	 	 ),
-                                ('Postman'	 ),
-                                ('Ruby'		 );
-
-
-insert into `question` (Content, CategoryID, TypeID, CreatorID, CreateDate  )
-values
-					   ('SQL là gì?', 3, 1, 1, '2020-09-12'),
-                       ('Có bao nhiêu loại kiểu dữ liệu number ?', 3, 2, 2, '2020-09-13'),
-                       ('Lập trình Java là gì ?', 1, 1, 1, '2020-09-12'),
-                       ('Java sử dụng để làm gì ?', 1, 2, 1, '2020-09-12'),
-                       ('.NET là gì và sử dụng chủ yếu để làm gì ?', 2, 1, 2, '2020-09-13'),
-                       ('câu hỏi Java?', 1, 1, 3, '2018-09-13'),
-                       ('câu hỏi SQL?', 3, 2, 4, '2017-09-13'),
-                       ('câu hỏi .NET', 2, 2, 2, '2019-09-13');
- 
-
-insert into `answer`(Content, QuestionID, isCorrect )
-values
-					(N'SQL là ngôn ngữ truy vấn dữ liệu', 1, 'yes'),
-                    (N'Có tổng cộng 5 loại kiểu dữ liệu number', 2, 'yes'),
-                    (N'Java là ngôn ngữ lập trình hướng đối tượng, bậc thấp', 3, 'no'),
-                    (N'Java dùng để thiết kế app, website, robot,... ', 4, 'yes'),
-                    (N'.NET là một phần mềm chạy chủ yếu trên Microsoft và chủ yếu dùng làm web ', 1, 'yes');
-
-
-insert into `exam`  (`Code`  , Title , CategoryID , Duration  , CreatorID , CreateDate )
-values
-					('VTI1', 'SQL' ,'3','30',1	,'2019-10-12'),
-					('VTI2', 'Java','1','40',1	,'2017-10-12'),
-                    ('VTI3', 'SQL' ,'3','50',1	,'2018-10-12'),
-                    ('VTI4', '.NET','2','60',2	,'2016-10-12'),
-                    ('VTI5', 'SQL' ,'3','70',2	,'2020-10-12');
-
-
-insert into `examquestion`	(ExamID, QuestionID)
-values
-							(1, 1),
-                            (2, 2),
-                            (3, 3),
-                            (4, 4),
-                            (5, 5);
+INSERT INTO ExamQuestion(ExamID, QuestionID)
+VALUES (1, 5),
+       (2, 10),
+       (3, 4),
+       (4, 3),
+       (5, 7),
+       (6, 10),
+       (7, 2),
+       (8, 10),
+       (9, 9),
+       (10, 8);

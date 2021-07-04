@@ -10,11 +10,12 @@ select * from `department`;
 select DepartmentID from `department` where DepartmentName = 'Sale';
 
 -- Question 4: lấy ra thông tin account có full name dài nhất
-select * from `account` where character_length(Fullname) = (select max(character_length(Fullname))from `account`);
-select max(character_length(Fullname)) from `account`;
+select * from `account` where character_length(FullName) = (select max(character_length(FullName))from `account`);
+select max(character_length(FullName)) from `account`;
+select FullName, character_length(FullName) as 'Dodaiten' from `account` order by character_length(FullName) desc limit 1;
 
 -- Question 5: lấy ra thông tin account có full name dài nhất và thuộc phòng ban có id = 3
-select * from `account` where character_length(Fullname) = (select max(character_length(Fullname)) from `account` where AccountID in(3));
+select * from `account` where character_length(FullName) = (select max(character_length(FullName)) from `account` where AccountID in(3));
 
 -- Question 6: Lấy ra tên group đã tham gia trước ngày 20/12/2019
 select * from `group` where CreateDate < '2019-12-20';
@@ -29,10 +30,10 @@ select `Code` from `exam` group by Duration >= '60' and CreateDate < '2019-12-20
 select * from `group` order by CreateDate asc limit 5;
 
 -- Question 10: Đếm số nhân viên thuộc department có id = 2
-select count(*) from `department` where DepartmentID in(2); 
+select count(*) from `account` where DepartmentID in(2); 
 
 -- Question 11: Lấy ra nhân viên có tên bắt đầu bằng chữ "D" và kết thúc bằng chữ "o"
-select * from `account` where Fullname like 'D%o';
+select * from `account` where FullName like 'D%o';
 
 -- Question 12: Xóa tất cả các exam được tạo trước ngày 20/12/2019
 delete from `exam` where CreateDate < '2019-12-20';
@@ -41,7 +42,7 @@ delete from `exam` where CreateDate < '2019-12-20';
 delete from `question` where Content like 'câu hỏi%';
 
 -- Question 14: Update thông tin của account có id = 5 thành tên "Nguyễn Bá Lộc" và email thành loc.nguyenba@vti.com.vn
-update `account` set Fullname = 'Nguyễn Bá Lộc', Email = 'loc.nguyenba@vti.com.vn' where AccountID in(5);
+update `account` set FullName = 'Nguyễn Bá Lộc', Email = 'loc.nguyenba@vti.com.vn' where AccountID in(5);
 
 -- Question 15: update account có id = 5 sẽ thuộc group có id = 4
 update `groupaccount` set GroupID = 4 where AccountID in(5);
