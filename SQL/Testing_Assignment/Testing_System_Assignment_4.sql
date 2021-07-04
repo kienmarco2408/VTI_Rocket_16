@@ -69,14 +69,18 @@ order by count(b.AccountID) asc limit 1;
 -- Question 11: Thống kê mỗi phòng ban có bao nhiêu dev, test, scrum master, PM
 select d.DepartmentName, p.PositionName, count(*) as 'soluong'
 from `account` a 
-	join Department d on a.DepartmentID = d.DepartmentID
-    join PostionName p on a.PositionID = p.PositionID
+	join `department` d on a.DepartmentID = d.DepartmentID
+    join `position` p on a.PositionID = p.PositionID
 group by d.DepartmentID, p.PositionID;
 -- Question 12: Lấy thông tin chi tiết của câu hỏi bao gồm: thông tin cơ bản của question, loại câu hỏi, ai là người tạo ra câu hỏi, câu trả lời là gì, ...
-select a.*, b.TypeName, c.CreatorID, d.Content
+select a.*, b.TypeName, c.Content
 from `question` a
-	join 
+	join `typequestion` b on a.TypeID = b.TypeID
+    join `answer` c on a.QuestionID = c.QuestionID
+group by b.TypeID, c.QuestionID;
 -- Question 13: Lấy ra số lượng câu hỏi của mỗi loại tự luận hay trắc nghiệm
+
+
 -- Question 14:Lấy ra group không có account nào
 -- Question 15: Lấy ra group không có account nào
 -- Question 16: Lấy ra question không có answer nào
