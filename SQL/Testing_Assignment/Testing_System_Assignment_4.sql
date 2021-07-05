@@ -3,6 +3,7 @@ create table if not exists `Testing_System_Assignment_4`;
 use `Testing_System_Assignment_1`;
 use `Testing_System_Assignment_2`;
 
+-- Exercise 1: Join
 -- Question 1: Viết lệnh để lấy ra danh sách nhân viên và thông tin phòng ban của họ
 select a.FullName, b.DepartmentName
 from `account` a join `department` b 
@@ -79,8 +80,73 @@ from `question` a
     join `answer` c on a.QuestionID = c.QuestionID
 group by b.TypeID, c.QuestionID;
 -- Question 13: Lấy ra số lượng câu hỏi của mỗi loại tự luận hay trắc nghiệm
-
+select a.TypeName, count(b.QuestionID) as 'soluong'
+from `typequestion` a
+join `question` b on a.TypeID = b.TypeID
+group by a.TypeName
+order by count(b.QuestionID);
 
 -- Question 14:Lấy ra group không có account nào
+select distinct a.GroupID, GroupName
+from `group` a
+         left join `groupaccount` b on a.GroupID = b.GroupID
+where AccountID is null;
+
 -- Question 15: Lấy ra group không có account nào
+select distinct a.GroupID, GroupName
+from `group` a
+         left join `groupaccount` b on a.GroupID = b.GroupID
+where AccountID is null;
+
 -- Question 16: Lấy ra question không có answer nào
+select *
+from `question`
+where QuestionID not in (select QuestionID from `answer`);
+
+-- Exercise 2: Union
+-- Question 17:
+-- a) Lấy các account thuộc nhóm thứ 1
+select a.AccountID, FullName
+from `account` a
+	join `groupaccount` b on a.AccountID = b.AccountID
+where GroupID = 1;
+-- b) Lấy các account thuộc nhóm thứ 2
+select a.AccountID, FullName
+from `account` a
+	join `groupaccount` b on a.AccountID = b.AccountID
+where GroupID = 2;
+-- c) Ghép 2 kết quả từ câu a) và câu b) sao cho không có record nào trùng nhau
+select a.AccountID, FullName
+from `account` a
+	join `groupaccount` b on a.AccountID = b.AccountID
+where GroupID = 1
+union
+select a.AccountID, FullName
+from `account` a
+	join `groupaccount` b on a.AccountID = b.AccountID
+where GroupID = 2;
+-- Question 18:
+-- a) Lấy các group có lớn hơn 5 thành viên
+select a.GroupID, GroupName, count(AccountID) as 'soluong'
+from `group` a
+	join `groupaccount` b on a.GroupID = b.GroupID
+group by a.GroupID
+having count(AccountID) > 5;
+-- b) Lấy các group có nhỏ hơn 7 thành viên
+select a.GroupID, GroupName, count(AccountID) as 'soluong'
+from `group` a
+	join `groupaccount` b on a.GroupID = b.GroupID
+group by a.GroupID
+having count(AccountID) < 7;
+-- c) Ghép 2 kết quả từ câu a) và câu b)
+select a.GroupID, GroupName, count(AccountID) as 'soluong'
+from `group` a
+	join `groupaccount` b on a.GroupID = b.GroupID
+group by a.GroupID
+having count(AccountID) > 5
+union
+select a.GroupID, GroupName, count(AccountID) as 'soluong'
+from `group` a
+	join `groupaccount` b on a.GroupID = b.GroupID
+group by a.GroupID
+having count(AccountID) < 7;
