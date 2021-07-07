@@ -17,6 +17,11 @@ where CreateDate > 2010-12-20;
 select a.FullName, b.PositionName
 from `account` a join `position` b
 on a.PositionID = b.PositionID
+where a.PositionID = (select PositionID from `position` where PositionName like 'Developer');
+
+select a.FullName, b.PositionName
+from `account` a join `position` b
+on a.PositionID = b.PositionID
 where PositionName = 'Developer';
 
 -- Question 4: Viết lệnh để lấy ra danh sách các phòng ban có >3 nhân viên
