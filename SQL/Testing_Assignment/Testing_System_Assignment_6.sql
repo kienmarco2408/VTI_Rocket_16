@@ -1,5 +1,5 @@
-drop database if exists `Testing_System_Assignment_5`;
-create database if not exists `Testing_System_Assignment_5`;
+drop database if exists `Testing_System_Assignment_6`;
+create database if not exists `Testing_System_Assignment_6`;
 use `Testing_System_Assignment_1`;
 use `Testing_System_Assignment_2`;
 
@@ -10,7 +10,7 @@ begin
 	declare idD int;
     select DepartmentID into idD from `department` where DepartmentName like in_dName;
     select * from Account where DepartmentID = idD;
-end$$
+end $$
 delimiter ;
 
 call printAc('Phòng Dev 2');
@@ -216,12 +216,12 @@ create procedure printQues()
     begin
 		select monthname(CreateDate) as 'Thang', count(QuestionID) as 'So luong' 
         from `question` 
-        where year(CreateDate) = (year(now())-1) 
+        where year(CreateDate) = (year(now())-1)
         group by month(CreateDate) ;
     end$$
 delimiter ;
 
-call  printQues(); 
+call  printQues();
 
 
 -- Question 13: Viết store để in ra mỗi tháng có bao nhiêu câu hỏi được tạo trong 6 tháng gần đây nhất (Nếu tháng nào không có thì sẽ in ra là "không có câu hỏi nào trong tháng")
@@ -240,3 +240,18 @@ create procedure printCreateQues()
 delimiter ; 
 
 call  printCreateQues(); 
+
+
+
+DROP TRIGGER IF EXISTS trigger_department;
+
+DELIMITER $$
+CREATE TRIGGER trigger_department
+    BEFORE DELETE ON department
+    FOR EACH ROW
+        BEGIN
+            UPDATE account SET DepartmentID = 0
+            WHERE DepartmentID = OLD.DepartmentID;
+        END$$
+        DELETE FROM department WHERE DepartmentName = 'Phòng Dev 1';
+DELIMITER ;
