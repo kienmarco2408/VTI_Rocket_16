@@ -1,7 +1,6 @@
 drop database if exists `Testing_System_Assignment_4`;
 create table if not exists `Testing_System_Assignment_4`;
 use `Testing_System_Assignment_1`;
-use `Testing_System_Assignment_2`;
 
 -- Exercise 1: Join
 -- Question 1: Viết lệnh để lấy ra danh sách nhân viên và thông tin phòng ban của họ
